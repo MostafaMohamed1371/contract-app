@@ -5,10 +5,12 @@
 @section('content')
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold">العقود</h1>
-        <a href="{{ route('contracts.create') }}"
-           class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-            عقد جديد
-        </a>
+        @if(auth()->user()->isAdmin())
+            <a href="{{ route('contracts.create') }}"
+               class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                عقد جديد
+            </a>
+        @endif
     </div>
 
     <div class="bg-white rounded shadow p-4">
@@ -35,16 +37,18 @@
                         <td class="py-2">{{ $contract->status }}</td>
                         <td class="py-2 space-x-2 space-x-reverse">
                             <a href="{{ route('contracts.show', $contract) }}" class="text-blue-600 hover:underline">عرض</a>
-                            <a href="{{ route('contracts.edit', $contract) }}" class="text-yellow-600 hover:underline">تعديل</a>
-                            <form action="{{ route('contracts.destroy', $contract) }}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                        onclick="return confirm('هل أنت متأكد من حذف هذا العقد؟');"
-                                        class="text-red-600 hover:underline">
-                                    حذف
-                                </button>
-                            </form>
+                            @if(auth()->user()->isAdmin())
+                                <a href="{{ route('contracts.edit', $contract) }}" class="text-yellow-600 hover:underline">تعديل</a>
+                                <form action="{{ route('contracts.destroy', $contract) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                            onclick="return confirm('هل أنت متأكد من حذف هذا العقد؟');"
+                                            class="text-red-600 hover:underline">
+                                        حذف
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @empty

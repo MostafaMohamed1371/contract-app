@@ -23,6 +23,8 @@ class ContractController extends Controller
      */
     public function create()
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         return view('contracts.create');
     }
 
@@ -31,6 +33,8 @@ class ContractController extends Controller
      */
     public function store(Request $request)
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         $data = $request->validate([
             'contract_number' => ['required', 'string', 'max:255', 'unique:contracts,contract_number'],
             'entity_name' => ['required', 'string', 'max:255'],
@@ -72,6 +76,8 @@ class ContractController extends Controller
      */
     public function edit(Contract $contract)
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         return view('contracts.edit', compact('contract'));
     }
 
@@ -80,6 +86,8 @@ class ContractController extends Controller
      */
     public function update(Request $request, Contract $contract)
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         $data = $request->validate([
             'contract_number' => ['required', 'string', 'max:255', 'unique:contracts,contract_number,' . $contract->id],
             'entity_name' => ['required', 'string', 'max:255'],
@@ -113,6 +121,8 @@ class ContractController extends Controller
      */
     public function destroy(Contract $contract)
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         $contract->delete();
 
         return redirect()->route('contracts.index')

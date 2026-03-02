@@ -22,6 +22,8 @@ class LegalCaseController extends Controller
      */
     public function create()
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         return view('legal-cases.create');
     }
 
@@ -30,6 +32,8 @@ class LegalCaseController extends Controller
      */
     public function store(Request $request)
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         $data = $request->validate([
             'case_number' => ['required', 'string', 'max:255', 'unique:legal_cases,case_number'],
             'file_number' => ['nullable', 'string', 'max:255'],
@@ -60,6 +64,8 @@ class LegalCaseController extends Controller
      */
     public function edit(LegalCase $legalCase)
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         return view('legal-cases.edit', ['case' => $legalCase]);
     }
 
@@ -68,6 +74,8 @@ class LegalCaseController extends Controller
      */
     public function update(Request $request, LegalCase $legalCase)
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         $data = $request->validate([
             'case_number' => ['required', 'string', 'max:255', 'unique:legal_cases,case_number,' . $legalCase->id],
             'file_number' => ['nullable', 'string', 'max:255'],
@@ -90,6 +98,8 @@ class LegalCaseController extends Controller
      */
     public function destroy(LegalCase $legalCase)
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         $legalCase->delete();
 
         return redirect()->route('legal-cases.index')

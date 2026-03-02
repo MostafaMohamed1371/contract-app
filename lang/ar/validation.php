@@ -16,6 +16,10 @@ return [
     'integer' => 'حقل :attribute يجب أن يكون عدداً صحيحاً.',
 
     'attributes' => [
+        'name' => 'الاسم الكامل',
+        'email' => 'البريد الإلكتروني',
+        'password' => 'كلمة المرور',
+        'password_confirmation' => 'تأكيد كلمة المرور',
         'contract_number' => 'رقم العقد',
         'entity_name' => 'اسم الجهة',
         'contract_type' => 'نوع العقد',

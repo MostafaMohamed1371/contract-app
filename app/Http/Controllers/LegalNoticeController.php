@@ -25,6 +25,8 @@ class LegalNoticeController extends Controller
      */
     public function create()
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         $contracts = Contract::orderBy('contract_number')->get();
         $cases = LegalCase::orderBy('case_number')->get();
 
@@ -36,6 +38,8 @@ class LegalNoticeController extends Controller
      */
     public function store(Request $request)
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         $data = $request->validate([
             'type' => ['required', 'string', 'max:255'],
             'subject' => ['required', 'string', 'max:255'],
@@ -71,6 +75,8 @@ class LegalNoticeController extends Controller
      */
     public function edit(LegalNotice $legalNotice)
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         $contracts = Contract::orderBy('contract_number')->get();
         $cases = LegalCase::orderBy('case_number')->get();
 
@@ -86,6 +92,8 @@ class LegalNoticeController extends Controller
      */
     public function update(Request $request, LegalNotice $legalNotice)
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         $data = $request->validate([
             'type' => ['required', 'string', 'max:255'],
             'subject' => ['required', 'string', 'max:255'],
@@ -113,6 +121,8 @@ class LegalNoticeController extends Controller
      */
     public function destroy(LegalNotice $legalNotice)
     {
+        abort_unless(auth()->user()?->isAdmin(), 403);
+
         $legalNotice->delete();
 
         return redirect()->route('legal-notices.index')

@@ -5,10 +5,12 @@
 @section('content')
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold">القضايا</h1>
-        <a href="{{ route('legal-cases.create') }}"
-           class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-            قضية جديدة
-        </a>
+        @if(auth()->user()->isAdmin())
+            <a href="{{ route('legal-cases.create') }}"
+               class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                قضية جديدة
+            </a>
+        @endif
     </div>
 
     <div class="bg-white rounded shadow p-4">
@@ -37,16 +39,18 @@
                         <td class="py-2">{{ $case->status }}</td>
                         <td class="py-2 space-x-2 space-x-reverse">
                             <a href="{{ route('legal-cases.show', $case) }}" class="text-blue-600 hover:underline">عرض</a>
-                            <a href="{{ route('legal-cases.edit', $case) }}" class="text-yellow-600 hover:underline">تعديل</a>
-                            <form action="{{ route('legal-cases.destroy', $case) }}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                        onclick="return confirm('هل أنت متأكد من حذف هذه القضية؟');"
-                                        class="text-red-600 hover:underline">
-                                    حذف
-                                </button>
-                            </form>
+                            @if(auth()->user()->isAdmin())
+                                <a href="{{ route('legal-cases.edit', $case) }}" class="text-yellow-600 hover:underline">تعديل</a>
+                                <form action="{{ route('legal-cases.destroy', $case) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                            onclick="return confirm('هل أنت متأكد من حذف هذه القضية؟');"
+                                            class="text-red-600 hover:underline">
+                                        حذف
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @empty
